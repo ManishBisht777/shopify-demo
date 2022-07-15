@@ -1,11 +1,10 @@
+import React from "react";
+import Navbar from "../components/Navbar";
 import { storefront } from "../utils/index.js";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar.js";
 
-export default function Home({ products }) {
-  // console.log(products.edges);
-
+const curlcure = ({ products }) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -51,28 +50,32 @@ export default function Home({ products }) {
       </>
     )
   );
-}
+};
 
 const gql = String.raw;
 
 const productquery = gql`
   {
-    products(first: 10) {
-      edges {
-        node {
-          id
-          title
-          handle
-          priceRange {
-            minVariantPrice {
-              amount
+    collection(handle: "curl-cure-new-launch") {
+      products(first: 250) {
+        edges {
+          node {
+            id
+            title
+            handle
+            priceRange {
+              minVariantPrice {
+                amount
+              }
             }
-          }
-          images(first: 3) {
-            edges {
-              node {
-                url
-                altText
+            description
+            description
+            images(first: 3) {
+              edges {
+                node {
+                  url
+                  altText
+                }
               }
             }
           }
@@ -87,7 +90,9 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      products: data.products,
+      products: data.collection.products,
     },
   };
 }
+
+export default curlcure;

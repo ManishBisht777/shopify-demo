@@ -1,0 +1,228 @@
+.nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  box-shadow: 0px 0px 2px 0px rgba(47, 47, 47, 0.75);
+}
+
+.main_nav {
+  display: flex;
+  align-items: center;
+  border-radius: 30px;
+  padding: 0px 7px;
+  height: 40px;
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(37, 37, 37, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(37, 37, 37, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(37, 37, 37, 0.75);
+}
+
+.main_nav ul {
+  display: flex;
+  font-size: 14px;
+  color: #515151;
+}
+
+.main_nav ul li {
+  border-right: 1px solid #70707088;
+  padding: 0px 10px;
+  cursor: pointer;
+}
+.main_nav ul li:nth-child(3) {
+  border-right: none;
+}
+.logo {
+  font-family: "The Nautigal", cursive;
+  font-size: 2.5rem;
+}
+.profile_img {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  margin-left: 5px;
+  position: relative;
+}
+.profile_img::before {
+  position: absolute;
+  content: "1";
+  width: 15px;
+  height: 15px;
+  background: #fd4444;
+  color: #fff;
+  top: -7px;
+  right: -7px;
+  border-radius: 50%;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid white;
+}
+.profile_img img {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fd4444;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #fff;
+}
+.user {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: rgb(80, 80, 80);
+}
+.user svg {
+  color: #515151;
+}
+.profile {
+  display: flex;
+  -webkit-box-shadow: 0px 0px 3px 0px rgba(37, 37, 37, 0.75);
+  -moz-box-shadow: 0px 0px 3px 0px rgba(37, 37, 37, 0.75);
+  box-shadow: 0px 0px 3px 0px rgba(37, 37, 37, 0.75);
+  border-radius: 20px;
+  align-items: center;
+  padding: 4px 7px;
+  font-size: 17px;
+  margin-left: 10px;
+}
+
+.nav2 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+}
+
+.nav2 .categories {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2rem;
+}
+
+.categories .icon {
+  padding: 5px 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.categories .icon:nth-child(3) {
+  border-right: 2px solid #6e6e6e;
+}
+
+.categories .icon svg {
+  font-size: 3rem;
+}
+
+.categories .icon .name {
+  color: #6e6e6e;
+  margin: 5px;
+}
+
+.filter {
+  display: flex;
+  align-items: center;
+}
+
+.stylebx {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 2px 0px rgba(47, 47, 47, 0.75);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.filterbx {
+  margin-left: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 2px 0px rgba(47, 47, 47, 0.75);
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #515151;
+}
+
+.filterbx svg {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #252525;
+}
+
+@media (max-width: 900px) {
+  .logo {
+    scale: 0.6;
+  }
+
+  .nav {
+    padding: 0.5rem;
+  }
+  .nav2 .categories {
+    margin-right: 0rem;
+  }
+  .categories .icon {
+    padding: 5px 0.2rem;
+  }
+  .categories .icon svg {
+    font-size: 0.8rem;
+  }
+
+  .name {
+    font-size: 0.7rem;
+  }
+  .main_nav {
+    scale: 0.6;
+  }
+  .user {
+    scale: 0.6;
+  }
+  .filter {
+    scale: 0.6;
+  }
+}
+
+@media (max-width: 400px) {
+  .main_nav {
+    margin: 0 -25px;
+    scale: 0.5;
+  }
+  .nav2 {
+    padding: 0;
+  }
+  .icon {
+    scale: 0.8;
+  }
+  .nav2 .categories {
+    margin-right: -1rem;
+  }
+  .name {
+    font-size: 7px;
+  }
+
+  .user {
+    scale: 0.5;
+  }
+
+  .main_nav ul li {
+    font-size: 9px;
+  }
+  .filter {
+    scale: 0.5;
+  }
+}
