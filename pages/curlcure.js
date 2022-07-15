@@ -4,7 +4,7 @@ import { storefront } from "../utils/index.js";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const curlcure = ({ products }) => {
+const Curlcure = ({ products }) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -95,4 +95,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default curlcure;
+export default Curlcure;

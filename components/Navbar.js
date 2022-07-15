@@ -20,7 +20,7 @@ const Navbar = () => {
                 <article>Home</article>
               </li>
             </Link>
-            <Link href="/curlcure">
+            <Link href="/Curlcure">
               <li>
                 <a>Curl Cure</a>
               </li>
