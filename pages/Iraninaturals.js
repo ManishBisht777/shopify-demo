@@ -4,7 +4,7 @@ import { storefront } from "../utils/index.js";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import styles from "../styles/ProductsPage.module.css";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
 
 import { Rating } from "@mui/material";
 
@@ -28,7 +28,7 @@ const Iraninaturals = ({ products }) => {
       <>
         <Navbar />
         <div className={styles.productcontainer}>
-          <div className={styles.filterbox}>filter box here</div>
+          {/* <div className={styles.filterbox}>filter box here</div> */}
           <div className={styles.cards}>
             {products.edges.map((item) => {
               const product = item.node;
@@ -40,8 +40,8 @@ const Iraninaturals = ({ products }) => {
 
               const titlemore = title;
 
-              if (title.length > 50) {
-                titlemore = title.substring(0, 50) + "...";
+              if (title.length > 30) {
+                titlemore = title.substring(0, 25) + "...";
               }
 
               return (
@@ -50,6 +50,7 @@ const Iraninaturals = ({ products }) => {
                     <div className={styles.card}>
                       <div className={styles.image}>
                         <img
+                          // src="https://i.picsum.photos/id/846/536/354.jpg?hmac=vWJADyGTiavL-k1p7jrd223C6dzWbYTL_RNl-khWIWw"
                           src={image.url}
                           alt={image.altText}
                           className={styles.product_image}
@@ -57,8 +58,10 @@ const Iraninaturals = ({ products }) => {
                       </div>
                       <div className={styles.product_info}>
                         <div className={styles.name}>{titlemore}</div>
+                        <div className={styles.rating}>
+                          <AiFillStar /> <span>4.5</span>
+                        </div>
                         <div className={styles.ratings}>
-                          <Rating {...options} />
                           <span className={styles.reviews}>23 reviews</span>
                         </div>
                         <div className={styles.addtocart}>
