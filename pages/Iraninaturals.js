@@ -28,51 +28,54 @@ const Iraninaturals = ({ products }) => {
       <>
         <Navbar />
         <div className={styles.productcontainer}>
-          {products.edges.map((item) => {
-            const product = item.node;
-            const id = product.id;
-            const title = product.title;
-            const handle = product.handle;
-            const image = product.images.edges[0].node;
-            const price = product.priceRange.minVariantPrice.amount;
+          <div className={styles.filterbox}>filter box here</div>
+          <div className={styles.cards}>
+            {products.edges.map((item) => {
+              const product = item.node;
+              const id = product.id;
+              const title = product.title;
+              const handle = product.handle;
+              const image = product.images.edges[0].node;
+              const price = product.priceRange.minVariantPrice.amount;
 
-            const titlemore = title;
+              const titlemore = title;
 
-            if (title.length > 50) {
-              titlemore = title.substring(0, 50) + "...";
-            }
+              if (title.length > 50) {
+                titlemore = title.substring(0, 50) + "...";
+              }
 
-            return (
-              <Link key={id} href={`/product/${handle}`}>
-                <a>
-                  <div className={styles.card}>
-                    <div className={styles.image}>
-                      <img
-                        src={image.url}
-                        alt={image.altText}
-                        className={styles.product_image}
-                      />
-                    </div>
-                    <div className={styles.product_info}>
-                      <div className={styles.name}>{titlemore}</div>
-                      <div className={styles.ratings}>
-                        <Rating {...options} />
-                        <span className={styles.reviews}>23 reviews</span>
+              return (
+                <Link key={id} href={`/product/${handle}`}>
+                  <a>
+                    <div className={styles.card}>
+                      <div className={styles.image}>
+                        <img
+                          src={image.url}
+                          alt={image.altText}
+                          className={styles.product_image}
+                        />
                       </div>
-                      <div className={styles.addtocart}>
-                        <div className={styles.price}>
-                          ₹{price} <span>₹130</span>
+                      <div className={styles.product_info}>
+                        <div className={styles.name}>{titlemore}</div>
+                        <div className={styles.ratings}>
+                          <Rating {...options} />
+                          <span className={styles.reviews}>23 reviews</span>
                         </div>
-                        <div className={styles.cart_button}>
-                          add to cart <AiOutlineShoppingCart />
+                        <div className={styles.addtocart}>
+                          <div className={styles.price}>
+                            ₹{price} <span>₹130</span>
+                          </div>
+                          <div className={styles.cart_button}>
+                            add to cart <AiOutlineShoppingCart />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </a>
-              </Link>
-            );
-          })}
+                  </a>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </>
     )
