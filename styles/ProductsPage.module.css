@@ -103,6 +103,7 @@
 .ratings span {
   font-size: 16px;
   color: gray;
+  margin-top: 5px;
 }
 
 .addtocart .price span {
@@ -121,6 +122,7 @@
 .cart_button {
   display: flex;
   align-items: center;
+  z-index: 1000;
 }
 
 .cart_button svg {

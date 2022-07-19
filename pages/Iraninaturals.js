@@ -5,13 +5,12 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import styles from "../styles/ProductsPage.module.css";
 import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
-
-import { Rating } from "@mui/material";
+import { addtocart } from "../utils/addtocart";
 
 const Iraninaturals = ({ products }) => {
-  // console.log(products.edges);
-
+  console.log(products.edges);
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -38,6 +37,8 @@ const Iraninaturals = ({ products }) => {
               const image = product.images.edges[0].node;
               const price = product.priceRange.minVariantPrice.amount;
 
+              const variant = product.variants.edges[0].node.id;
+
               const titlemore = title;
 
               if (title.length > 30) {
@@ -56,6 +57,7 @@ const Iraninaturals = ({ products }) => {
                           className={styles.product_image}
                         />
                       </div>
+
                       <div className={styles.product_info}>
                         <div className={styles.name}>{titlemore}</div>
                         <div className={styles.rating}>
@@ -68,7 +70,10 @@ const Iraninaturals = ({ products }) => {
                           <div className={styles.price}>
                             ₹{price} <span>₹130</span>
                           </div>
-                          <div className={styles.cart_button}>
+                          <div
+                            className={styles.cart_button}
+                            onClick={() => addtocart()}
+                          >
                             add to cart <AiOutlineShoppingCart />
                           </div>
                         </div>
@@ -102,7 +107,13 @@ const productquery = gql`
               }
             }
             description
-            description
+            variants(first: 10) {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
             images(first: 3) {
               edges {
                 node {
