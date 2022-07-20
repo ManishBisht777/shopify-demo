@@ -4,7 +4,15 @@ import { BiSearch } from "react-icons/bi";
 import { GiHamburgerMenu, GiBottleVapors } from "react-icons/gi";
 import { GrLanguage, GrFormNext, GrFilter } from "react-icons/gr";
 import { GiBowTieRibbon, GiClothes, GiShop } from "react-icons/gi";
-import { AiFillCloseCircle } from "react-icons/ai";
+import {
+  AiFillCloseCircle,
+  AiOutlinePlus,
+  AiOutlineMinus,
+  AiFillDelete,
+} from "react-icons/ai";
+
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
+
 import Link from "next/link";
 import { storefront } from "../utils/index.js";
 
@@ -167,107 +175,101 @@ const Navbar = () => {
 
       <div
         ref={ref}
-        className="sidebar h-full absolute top-0 right-0 bg-pink-100 p-10 transform transition-transform translate-x-full z-50"
+        className="sidebar overflow-y-hidden h-full absolute top-0 right-0 bg-pink-50/100 p-5 transform transition-transform translate-x-full z-50"
       >
         <span
-          className="absolute top-2 right-2 text-pink-500 text-2xl z-50 cursor-pointer"
+          className="flex my-3 h-1/10 items-center drop-shadow-md gap-4 text-pink-500 text-2xl z-50 cursor-pointer"
           onClick={togglecart}
         >
-          <AiFillCloseCircle />
+          <MdOutlineKeyboardBackspace />
+          <h2 className="font-bold text-xl text-pink-500">CART</h2>
         </span>
-        <h2 className="font-bold text-xl text-center text-pink-500">CART</h2>
-        <ol className="list-decimal border-b-2 border-black">
-          <li className="my-3 flex">
+        <ol className="list-decimal border-b h-3/6  overflow-y-auto">
+          <li className="my-3  flex relative">
             <img
               src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
               alt="lorempic"
-              className="w-20 object-cover rounded"
+              className="w-2/5 object-cover rounded"
             />
-            <div className="flex flex-col justify-center mx-5">
-              <h4 className="font-semibold">Title</h4>
-              <p className="flex font-semibold items-center justify-center">
-                ₹ 120 x
-                <span className="mx-1 text-pink-500  px-2 rounded-2xl">14</span>
+            <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
+              <h4 className="font-semibold">
+                Hibiscus, Amla & Bhringaraj Hair Oil
+              </h4>
+              <p className="flex font-semibold items-center justify-center text-pink-500">
+                ₹ 120
               </p>
+              <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
+                <AiOutlineMinus />
+                <span className="border-l border-black/100 border-r px-3 ">
+                  1
+                </span>
+                <AiOutlinePlus />
+              </div>
+            </div>
+            <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
+              <AiFillDelete className=" text-pink-500 text-lg" />
+              <p className="underline decoration-1 text-black">Remove</p>
             </div>
           </li>
-          <li className="my-3 flex">
+          <li className="my-3  flex relative">
             <img
               src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
               alt="lorempic"
-              className="w-20 object-cover rounded"
+              className="w-2/5 object-cover rounded"
             />
-            <div className="flex flex-col justify-center mx-5">
-              <h4 className="font-semibold">Title</h4>
-              <p className="flex font-semibold items-center justify-center">
-                ₹ 120 x
-                <span className="mx-1 text-pink-500  px-2 rounded-2xl">14</span>
+            <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
+              <h4 className="font-semibold">
+                Hibiscus, Amla & Bhringaraj Hair Oil
+              </h4>
+              <p className="flex font-semibold items-center justify-center text-pink-500">
+                ₹ 120
               </p>
+              <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
+                <AiOutlineMinus />
+                <span className="border-l border-black/100 border-r px-3 ">
+                  1
+                </span>
+                <AiOutlinePlus />
+              </div>
+            </div>
+            <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
+              <AiFillDelete className=" text-pink-500 text-lg" />
+              <p className="underline decoration-1 text-black">Remove</p>
             </div>
           </li>
-          <li className="my-3 flex">
+          <li className="my-3  flex relative">
             <img
               src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
               alt="lorempic"
-              className="w-20 object-cover rounded"
+              className="w-2/5 object-cover rounded"
             />
-            <div className="flex flex-col justify-center mx-5">
-              <h4 className="font-semibold">Title</h4>
-              <p className="flex font-semibold items-center justify-center">
-                ₹ 120 x
-                <span className="mx-1 text-pink-500  px-2 rounded-2xl">14</span>
+            <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
+              <h4 className="font-semibold">
+                Hibiscus, Amla & Bhringaraj Hair Oil
+              </h4>
+              <p className="flex font-semibold items-center justify-center text-pink-500">
+                ₹ 120
               </p>
+              <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
+                <AiOutlineMinus />
+                <span className="border-l border-black/100 border-r px-3 ">
+                  1
+                </span>
+                <AiOutlinePlus />
+              </div>
             </div>
-          </li>
-          <li className="my-3 flex">
-            <img
-              src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
-              alt="lorempic"
-              className="w-20 object-cover rounded"
-            />
-            <div className="flex flex-col justify-center mx-5">
-              <h4 className="font-semibold">Title</h4>
-              <p className="flex font-semibold items-center justify-center">
-                ₹ 120 x
-                <span className="mx-1 text-pink-500  px-2 rounded-2xl">14</span>
-              </p>
-            </div>
-          </li>
-          <li className="my-3 flex">
-            <img
-              src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
-              alt="lorempic"
-              className="w-20 object-cover rounded"
-            />
-            <div className="flex flex-col justify-center mx-5">
-              <h4 className="font-semibold">Title</h4>
-              <p className="flex font-semibold items-center justify-center">
-                ₹ 120 x
-                <span className="mx-1 text-pink-500  px-2 rounded-2xl">14</span>
-              </p>
-            </div>
-          </li>
-          <li className="my-3 flex">
-            <img
-              src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
-              alt="lorempic"
-              className="w-20 object-cover rounded"
-            />
-            <div className="flex flex-col justify-center mx-5">
-              <h4 className="font-semibold">Title</h4>
-              <p className="flex font-semibold items-center justify-center">
-                ₹ 120 x
-                <span className="mx-1 text-pink-500  px-2 rounded-2xl">14</span>
-              </p>
+            <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
+              <AiFillDelete className=" text-pink-500 text-lg" />
+              <p className="underline decoration-1 text-black">Remove</p>
             </div>
           </li>
         </ol>
-        <div className="flex justify-between items-center my-2">
-          Total <span>₹ 10000</span>
-          <button className="bg-pink-500 px-3 py-1 m-2 rounded-md text-white">
-            Checkout
-          </button>
+        <div className="flex justify-between items-center p-3 text-lg py-4  my-3">
+          Total <span className="text-pink-500">₹ 10000</span>
         </div>
+        <button className="bg-pink-500 w-full px-3 py-3 m-2  text-white">
+          Proceed To Checkout
+        </button>
       </div>
       <div className={styles.nav2}>
         <div className={styles.categories}>

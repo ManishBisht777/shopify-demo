@@ -16,6 +16,10 @@ a {
   overflow-x: hidden;
 }
 
+.sidebar {
+  width: 370px !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

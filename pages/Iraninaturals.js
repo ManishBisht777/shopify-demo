@@ -8,7 +8,6 @@ import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
 import { addtocart } from "../utils/addtocart";
 
 const Iraninaturals = ({ products }) => {
-  console.log(products.edges);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
