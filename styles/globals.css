@@ -14,10 +14,11 @@ a {
 * {
   box-sizing: border-box;
   overflow-x: hidden;
+  -ms-overflow-style: none;
 }
 
 .sidebar {
-  width: 350px !important;
+  width: 370px !important;
 }
 
 .curlcurenavbar {
@@ -28,6 +29,10 @@ a {
   .curlcurenavbar {
     position: relative;
   }
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 @tailwind base;

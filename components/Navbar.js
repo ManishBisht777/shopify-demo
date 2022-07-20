@@ -16,6 +16,8 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import Link from "next/link";
 import { storefront } from "../utils/index.js";
 
+const visa = require("../images/visa.png");
+
 const gql = String.raw;
 
 // create cart query
@@ -126,6 +128,8 @@ const Navbar = () => {
     if (ref.current.classList.contains("translate-x-full")) {
       ref.current.classList.remove("translate-x-full");
 
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100vh";
       if (window.innerWidth <= 500) {
         ref.current.classList.remove("absolute");
         ref.current.classList.add("relative");
@@ -138,6 +142,8 @@ const Navbar = () => {
         ref.current.classList.remove("relative");
         ref.current.classList.add("absolute");
       }
+      document.body.style.overflow = "overflow";
+      document.body.style.height = "fit-content";
 
       ref.current.classList.add("translate-x-full");
     }
@@ -313,6 +319,38 @@ const Navbar = () => {
         <p className="text-center text-sm my-3 text-black">
           100% Payment Protection
         </p>
+        <div className="flex gap-1 justify-center">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0058/7779/2832/files/visa.png?v=1625657861"
+            alt="visa"
+            className="w-8"
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0058/7779/2832/files/master.png?v=1625657873"
+            alt="mastercard"
+            className="w-8"
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0058/7779/2832/files/paytm.jpg?v=1625657885"
+            alt="paytm"
+            className="w-8"
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0058/7779/2832/files/upi.jpg?v=1625657899"
+            alt="upi"
+            className="w-8"
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0058/7779/2832/files/cash.png?v=1625657946"
+            alt="cash"
+            className="w-8"
+          />
+          <img
+            src="https://cdn.shopify.com/s/files/1/0058/7779/2832/files/rupay.png?v=1625657957"
+            alt="rupay"
+            className="w-8"
+          />
+        </div>
       </div>
     </div>
   );
