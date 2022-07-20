@@ -125,13 +125,20 @@ const Navbar = () => {
   const togglecart = () => {
     if (ref.current.classList.contains("translate-x-full")) {
       ref.current.classList.remove("translate-x-full");
-      ref.current.classList.remove("absolute");
-      ref.current.classList.add("relative");
+
+      if (window.innerWidth <= 500) {
+        ref.current.classList.remove("absolute");
+        ref.current.classList.add("relative");
+      }
+
       ref.current.classList.add("translate-x-0");
     } else if (!ref.current.classList.contains("translate-x-full")) {
       ref.current.classList.remove("translate-x-0");
-      ref.current.classList.remove("relative");
-      ref.current.classList.add("absolute");
+      if (window.innerWidth <= 500) {
+        ref.current.classList.remove("relative");
+        ref.current.classList.add("absolute");
+      }
+
       ref.current.classList.add("translate-x-full");
     }
   };
@@ -139,7 +146,7 @@ const Navbar = () => {
   const ref = useRef();
 
   return (
-    <div className="relative">
+    <div className="curlcurenavbar">
       <nav className={styles.nav}>
         <div className={styles.logo}>logo</div>
         <div className={styles.main_nav}>
@@ -176,7 +183,36 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      <div className={styles.nav2}>
+        <div className={styles.categories}>
+          <div className={styles.icon}>
+            <GiBottleVapors style={style} />
+            <div className={styles.name}>Hair Cure</div>
+          </div>
+          <div className={styles.icon}>
+            <GiBowTieRibbon style={style} />
+            <div className={styles.name}>Merchandices</div>
+          </div>
+          <div className={styles.icon}>
+            <GiClothes style={style} />
+            <div className={styles.name}>Accessories</div>
+          </div>
+          <div className={styles.icon}>
+            <GiShop style={style} />
+            <div className={styles.name}>Salon</div>
+          </div>
+        </div>
 
+        <div className={styles.filter}>
+          <div className={styles.stylebx}>
+            <GrFormNext />
+          </div>
+          <div className={styles.filterbx}>
+            <GrFilter />
+            Filter
+          </div>
+        </div>
+      </div>
       <div
         ref={ref}
         className="sidebar overflow-y-hidden h-[100vh] absolute top-0 right-0 bg-pink-50/100 p-5 transform transition-transform translate-x-full z-50"
@@ -274,36 +310,6 @@ const Navbar = () => {
         <button className="bg-pink-500 w-full px-3 py-3 m-2  text-white">
           Proceed To Checkout
         </button>
-      </div>
-      <div className={styles.nav2}>
-        <div className={styles.categories}>
-          <div className={styles.icon}>
-            <GiBottleVapors style={style} />
-            <div className={styles.name}>Hair Cure</div>
-          </div>
-          <div className={styles.icon}>
-            <GiBowTieRibbon style={style} />
-            <div className={styles.name}>Merchandices</div>
-          </div>
-          <div className={styles.icon}>
-            <GiClothes style={style} />
-            <div className={styles.name}>Accessories</div>
-          </div>
-          <div className={styles.icon}>
-            <GiShop style={style} />
-            <div className={styles.name}>Salon</div>
-          </div>
-        </div>
-
-        <div className={styles.filter}>
-          <div className={styles.stylebx}>
-            <GrFormNext />
-          </div>
-          <div className={styles.filterbx}>
-            <GrFilter />
-            Filter
-          </div>
-        </div>
       </div>
     </div>
   );

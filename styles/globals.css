@@ -17,7 +17,17 @@ a {
 }
 
 .sidebar {
-  width: 370px !important;
+  width: 350px !important;
+}
+
+.curlcurenavbar {
+  overflow: hidden;
+}
+
+@media (max-width: 500px) {
+  .curlcurenavbar {
+    position: relative;
+  }
 }
 
 @tailwind base;
