@@ -310,6 +310,9 @@ const Navbar = () => {
         <button className="bg-pink-500 w-full px-3 py-3 m-2  text-white">
           Proceed To Checkout
         </button>
+        <p className="text-center text-sm my-3 text-black">
+          100% Payment Protection
+        </p>
       </div>
     </div>
   );
