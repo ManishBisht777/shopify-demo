@@ -173,7 +173,6 @@ const Navbar = () => {
   };
 
   const increase = async (lineid, qty) => {
-    console.log(lineid, qty);
     const data = await storefront(updatecart, {
       cartid: cart.id,
       lines: {
@@ -183,12 +182,31 @@ const Navbar = () => {
             value: JSON.stringify({ qty }),
           },
         ],
-        cartid: { lineid },
+        id: lineid,
         quantity: qty + 1,
       },
     });
+  };
 
-    console.log(data);
+  const decrease = async (lineid, qty) => {
+    if (qty - 1 === 0) {
+      removecart(lineid);
+      return;
+    }
+
+    const data = await storefront(updatecart, {
+      cartid: cart.id,
+      lines: {
+        attributes: [
+          {
+            key: JSON.stringify({ qty }),
+            value: JSON.stringify({ qty }),
+          },
+        ],
+        id: lineid,
+        quantity: qty - 1,
+      },
+    });
   };
 
   useEffect(() => {
@@ -336,7 +354,12 @@ const Navbar = () => {
                       ₹ {cartitem.node.merchandise.priceV2.amount}
                     </p>
                     <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
-                      <AiOutlineMinus />
+                      <AiOutlineMinus
+                        onClick={() => {
+                          decrease(cartitem.node.id, cartitem.node.quantity);
+                        }}
+                        className="cursor-pointer"
+                      />
                       <span className="border-l border-black/100 border-r px-3 ">
                         {cartitem.node.quantity}
                       </span>
@@ -344,6 +367,7 @@ const Navbar = () => {
                         onClick={() => {
                           increase(cartitem.node.id, cartitem.node.quantity);
                         }}
+                        className="cursor-pointer"
                       />
                     </div>
                   </div>
