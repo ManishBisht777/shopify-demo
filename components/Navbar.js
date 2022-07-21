@@ -64,6 +64,10 @@ const loadcartquery = gql`
                   amount
                   currencyCode
                 }
+                image {
+                  url
+                  altText
+                }
               }
             }
           }
@@ -78,7 +82,7 @@ const Navbar = () => {
 
   const [cart, setcart] = useState({ id: "", lines: [] });
 
-  // get cart of cart not present then create one if present then fetch the old one
+  // get cart if cart not present then create one if present then fetch the old one
 
   async function getcart() {
     let localcartdata = JSON.parse(
@@ -96,6 +100,7 @@ const Navbar = () => {
         estimatedCost: data.cart.cost.totalAmount.amount,
         lines: data.cart.lines.edges,
       });
+
       return;
     }
     localcartdata = await storefront(cartquery);
@@ -111,17 +116,22 @@ const Navbar = () => {
     );
   }
 
-  async function loadcart() {
-    const data = await storefront(loadcartquery, {
-      id: cart.id,
-    });
+  // async function loadcart() {
+  //   const data = await storefront(loadcartquery, {
+  //     id: cart.id,
+  //   });
 
-    console.log(data);
-  }
+  //   console.log(data);
+  // }
+
+  console.log(cart);
 
   useEffect(() => {
     getcart();
-    loadcart();
+
+    // setInterval(() => {
+    //   getcart();
+    // }, 500);
   }, []);
 
   const togglecart = () => {
@@ -231,84 +241,48 @@ const Navbar = () => {
           <h2 className="font-bold text-xl text-pink-500">CART</h2>
         </span>
         <ol className="list-decimal border-b h-3/6  overflow-y-auto">
-          <li className="my-3  flex relative">
-            <img
-              src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
-              alt="lorempic"
-              className="w-2/5 object-cover rounded"
-            />
-            <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
-              <h4 className="font-semibold">
-                Hibiscus, Amla & Bhringaraj Hair Oil
-              </h4>
-              <p className="flex font-semibold items-center justify-center text-pink-500">
-                ₹ 120
-              </p>
-              <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
-                <AiOutlineMinus />
-                <span className="border-l border-black/100 border-r px-3 ">
-                  1
-                </span>
-                <AiOutlinePlus />
-              </div>
-            </div>
-            <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
-              <AiFillDelete className=" text-pink-500 text-lg" />
-              <p className="underline decoration-1 text-black">Remove</p>
-            </div>
-          </li>
-          <li className="my-3  flex relative">
-            <img
-              src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
-              alt="lorempic"
-              className="w-2/5 object-cover rounded"
-            />
-            <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
-              <h4 className="font-semibold">
-                Hibiscus, Amla & Bhringaraj Hair Oil
-              </h4>
-              <p className="flex font-semibold items-center justify-center text-pink-500">
-                ₹ 120
-              </p>
-              <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
-                <AiOutlineMinus />
-                <span className="border-l border-black/100 border-r px-3 ">
-                  1
-                </span>
-                <AiOutlinePlus />
-              </div>
-            </div>
-            <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
-              <AiFillDelete className=" text-pink-500 text-lg" />
-              <p className="underline decoration-1 text-black">Remove</p>
-            </div>
-          </li>
-          <li className="my-3  flex relative">
-            <img
-              src="https://i.picsum.photos/id/610/300/200.jpg?hmac=h1M_04bvunFzBSWCn3KmM1QvDML4d3SgnquzoyEdp6E"
-              alt="lorempic"
-              className="w-2/5 object-cover rounded"
-            />
-            <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
-              <h4 className="font-semibold">
-                Hibiscus, Amla & Bhringaraj Hair Oil
-              </h4>
-              <p className="flex font-semibold items-center justify-center text-pink-500">
-                ₹ 120
-              </p>
-              <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
-                <AiOutlineMinus />
-                <span className="border-l border-black/100 border-r px-3 ">
-                  1
-                </span>
-                <AiOutlinePlus />
-              </div>
-            </div>
-            <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
-              <AiFillDelete className=" text-pink-500 text-lg" />
-              <p className="underline decoration-1 text-black">Remove</p>
-            </div>
-          </li>
+          {!cart.lines ? (
+            <p>no item in cart</p>
+          ) : (
+            cart.lines &&
+            cart.lines.map((cartitem) => {
+              console.log(cartitem.node);
+
+              const smalltitle = "";
+              if (cartitem.node.merchandise.product.title.length > 30) {
+                smalltitle =
+                  cartitem.node.merchandise.product.title.substring(0, 25) +
+                  "...";
+              }
+
+              return (
+                <li className="my-3  flex relative">
+                  <img
+                    src={cartitem.node.merchandise.image.url}
+                    className="w-2/5 object-cover rounded"
+                    alt={cartitem.node.merchandise.image.altText}
+                  />
+                  <div className=" w-3/5 flex flex-col mx-5 justify-start items-start">
+                    <h4 className="font-semibold">{smalltitle}</h4>
+                    <p className="flex font-semibold items-center justify-center text-pink-500">
+                      ₹ {cartitem.node.merchandise.priceV2.amount}
+                    </p>
+                    <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
+                      <AiOutlineMinus />
+                      <span className="border-l border-black/100 border-r px-3 ">
+                        1
+                      </span>
+                      <AiOutlinePlus />
+                    </div>
+                  </div>
+                  <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
+                    <AiFillDelete className=" text-pink-500 text-lg" />
+                    <p className="underline decoration-1 text-black">Remove</p>
+                  </div>
+                </li>
+              );
+            })
+          )}
         </ol>
         <div className="flex justify-between items-center p-3 text-lg py-4  my-3">
           Total <span className="text-pink-500">₹ 10000</span>
