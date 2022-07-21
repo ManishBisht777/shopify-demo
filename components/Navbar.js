@@ -325,7 +325,7 @@ const Navbar = () => {
           {cart.lines.length == 0 ? (
             <div className="h-full flex justify-center items-center">
               <p className="text-pink-500 text-center text-2xl">
-                Ooops You Haven't Added anything to cart
+                Ooops You Have not Added anything to cart
               </p>
             </div>
           ) : (
