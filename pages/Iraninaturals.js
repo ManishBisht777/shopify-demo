@@ -5,21 +5,47 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import styles from "../styles/ProductsPage.module.css";
 import { AiOutlineShoppingCart, AiFillStar } from "react-icons/ai";
-import { addtocart } from "../utils/addtocart";
 
 const Iraninaturals = ({ products }) => {
   const [mounted, setMounted] = useState(false);
 
+  const [cart, setcart] = useState({ id: "", lines: [] });
+
+  async function getcart() {
+    let state = JSON.parse(window.localStorage.getItem("curlcure:cart"));
+    if (state) {
+      setcart({
+        id: state.id,
+        checkoutUrl: state.checkoutUrl,
+      });
+    } else {
+      state = await storefront(cartquery);
+
+      setcart({
+        id: state.data.cartCreate.cart.id,
+        checkoutUrl: state.data.cartCreate.cart.checkoutUrl,
+      });
+
+      window.localStorage.setItem(
+        "curlcure:cart",
+        JSON.stringify(state.data.cartCreate.cart)
+      );
+    }
+  }
+
+  const addtocart = async (variantid) => {
+    const data = await storefront(addtocartquery, {
+      cartid: cart.id,
+      variantid: variantid,
+    });
+  };
+
   useEffect(() => {
     setMounted(true);
+    setInterval(() => {
+      getcart();
+    }, 500);
   }, []);
-
-  const options = {
-    size: "small",
-    value: 4,
-    readOnly: true,
-    precision: 0.5,
-  };
 
   return (
     mounted && (
@@ -45,41 +71,40 @@ const Iraninaturals = ({ products }) => {
               }
 
               return (
-                <Link key={id} href={`/product/${handle}`}>
-                  <a>
-                    <div className={styles.card}>
-                      <div className={styles.image}>
-                        <img
-                          // src="https://i.picsum.photos/id/846/536/354.jpg?hmac=vWJADyGTiavL-k1p7jrd223C6dzWbYTL_RNl-khWIWw"
-                          src={image.url}
-                          alt={image.altText}
-                          className={styles.product_image}
-                        />
+                <div key={id} className={styles.card}>
+                  <Link key={id} href={`/product/${handle}`}>
+                    <a className={styles.image}>
+                      <img
+                        // src="https://i.picsum.photos/id/846/536/354.jpg?hmac=vWJADyGTiavL-k1p7jrd223C6dzWbYTL_RNl-khWIWw"
+                        src={image.url}
+                        alt={image.altText}
+                        className={styles.product_image}
+                      />
+                    </a>
+                  </Link>
+                  <div className={styles.product_info}>
+                    <div className={styles.name}>{titlemore}</div>
+                    <div className={styles.rating}>
+                      <AiFillStar /> <span>4.5</span>
+                    </div>
+                    <div className={styles.ratings}>
+                      <span className={styles.reviews}>23 reviews</span>
+                    </div>
+                    <div className={styles.addtocart}>
+                      <div className={styles.price}>
+                        ₹{price} <span>₹130</span>
                       </div>
-
-                      <div className={styles.product_info}>
-                        <div className={styles.name}>{titlemore}</div>
-                        <div className={styles.rating}>
-                          <AiFillStar /> <span>4.5</span>
-                        </div>
-                        <div className={styles.ratings}>
-                          <span className={styles.reviews}>23 reviews</span>
-                        </div>
-                        <div className={styles.addtocart}>
-                          <div className={styles.price}>
-                            ₹{price} <span>₹130</span>
-                          </div>
-                          <div
-                            className={styles.cart_button}
-                            onClick={() => addtocart()}
-                          >
-                            add to cart <AiOutlineShoppingCart />
-                          </div>
-                        </div>
+                      <div
+                        className={styles.cart_button}
+                        onClick={() => {
+                          addtocart(variant);
+                        }}
+                      >
+                        add to cart <AiOutlineShoppingCart />
                       </div>
                     </div>
-                  </a>
-                </Link>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -123,6 +148,44 @@ const productquery = gql`
             }
           }
         }
+      }
+    }
+  }
+`;
+
+const addtocartquery = gql`
+  mutation addtocart($cartid: ID!, $variantid: ID!) {
+    cartLinesAdd(
+      cartId: $cartid
+      lines: [{ quantity: 1, merchandiseId: $variantid }]
+    ) {
+      cart {
+        lines(first: 200) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  product {
+                    title
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const cartquery = gql`
+  mutation {
+    cartCreate {
+      cart {
+        checkoutUrl
+        id
       }
     }
   }

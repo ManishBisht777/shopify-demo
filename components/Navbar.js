@@ -48,6 +48,7 @@ const loadcartquery = gql`
       lines(first: 250) {
         edges {
           node {
+            id
             quantity
             cost {
               totalAmount {
@@ -57,6 +58,7 @@ const loadcartquery = gql`
             merchandise {
               ... on ProductVariant {
                 title
+                id
                 product {
                   title
                 }
@@ -69,6 +71,47 @@ const loadcartquery = gql`
                   altText
                 }
               }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const removefromcart = gql`
+  mutation removecart($cartid: ID!, $lineid: [ID!]!) {
+    cartLinesRemove(cartId: $cartid, lineIds: $lineid) {
+      cart {
+        lines(first: 200) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  product {
+                    title
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const updatecart = gql`
+  mutation cartLinesUpdate($cartid: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartid, lines: $lines) {
+      cart {
+        createdAt
+        lines(first: 250) {
+          edges {
+            node {
+              id
             }
           }
         }
@@ -100,11 +143,9 @@ const Navbar = () => {
         estimatedCost: data.cart.cost.totalAmount.amount,
         lines: data.cart.lines.edges,
       });
-
       return;
     }
     localcartdata = await storefront(cartquery);
-
     setcart({
       id: localcartdata.data.cartCreate.cart.id,
       checkoutUrl: localcartdata.data.cartCreate.cart.checkoutUrl,
@@ -124,14 +165,36 @@ const Navbar = () => {
   //   console.log(data);
   // }
 
-  console.log(cart);
+  const removecart = async (lineid) => {
+    const { data } = await storefront(removefromcart, {
+      cartid: cart.id,
+      lineid: [lineid],
+    });
+  };
+
+  const increase = async (lineid, qty) => {
+    console.log(lineid, qty);
+    const data = await storefront(updatecart, {
+      cartid: cart.id,
+      lines: {
+        attributes: [
+          {
+            key: JSON.stringify({ qty }),
+            value: JSON.stringify({ qty }),
+          },
+        ],
+        cartid: { lineid },
+        quantity: qty + 1,
+      },
+    });
+
+    console.log(data);
+  };
 
   useEffect(() => {
-    getcart();
-
-    // setInterval(() => {
-    //   getcart();
-    // }, 500);
+    setInterval(() => {
+      getcart();
+    }, 500);
   }, []);
 
   const togglecart = () => {
@@ -241,14 +304,16 @@ const Navbar = () => {
           <h2 className="font-bold text-xl text-pink-500">CART</h2>
         </span>
         <ol className="list-decimal border-b h-3/6  overflow-y-auto">
-          {!cart.lines ? (
-            <p>no item in cart</p>
+          {cart.lines.length == 0 ? (
+            <div className="h-full flex justify-center items-center">
+              <p className="text-pink-500 text-center text-2xl">
+                Ooops You Haven't Added anything to cart
+              </p>
+            </div>
           ) : (
             cart.lines &&
             cart.lines.map((cartitem) => {
-              console.log(cartitem.node);
-
-              const smalltitle = "";
+              const smalltitle = cartitem.node.merchandise.product.title;
               if (cartitem.node.merchandise.product.title.length > 30) {
                 smalltitle =
                   cartitem.node.merchandise.product.title.substring(0, 25) +
@@ -256,7 +321,10 @@ const Navbar = () => {
               }
 
               return (
-                <li className="my-3  flex relative">
+                <li
+                  key={cartitem.node.merchandise.product.title}
+                  className="my-3  flex relative"
+                >
                   <img
                     src={cartitem.node.merchandise.image.url}
                     className="w-2/5 object-cover rounded"
@@ -270,12 +338,21 @@ const Navbar = () => {
                     <div className="flex items-center border border-black/100 gap-2 px-3 py-1 my-3">
                       <AiOutlineMinus />
                       <span className="border-l border-black/100 border-r px-3 ">
-                        1
+                        {cartitem.node.quantity}
                       </span>
-                      <AiOutlinePlus />
+                      <AiOutlinePlus
+                        onClick={() => {
+                          increase(cartitem.node.id, cartitem.node.quantity);
+                        }}
+                      />
                     </div>
                   </div>
-                  <div className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center">
+                  <div
+                    onClick={() => {
+                      removecart(cartitem.node.id);
+                    }}
+                    className="absolute bottom-3 right-2 cursor-pointer text-sm flex justify-center flex-col items-center"
+                  >
                     <AiFillDelete className=" text-pink-500 text-lg" />
                     <p className="underline decoration-1 text-black">Remove</p>
                   </div>
@@ -285,7 +362,7 @@ const Navbar = () => {
           )}
         </ol>
         <div className="flex justify-between items-center p-3 text-lg py-4  my-3">
-          Total <span className="text-pink-500">₹ 10000</span>
+          Total <span className="text-pink-500">₹ {cart.estimatedCost}</span>
         </div>
         <button className="bg-pink-500 w-full px-3 py-3 m-2  text-white">
           Proceed To Checkout
