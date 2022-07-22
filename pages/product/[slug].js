@@ -1,6 +1,16 @@
 import React from "react";
 import { storefront } from "../../utils/index.js";
 
+import {
+  AiOutlinePlus,
+  AiOutlineMinus,
+  AiOutlineStar,
+  AiFillStar,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
+
+import { BsHandbag } from "react-icons/bs";
+
 const Post = ({ product }) => {
   console.log(product);
 
@@ -10,145 +20,196 @@ const Post = ({ product }) => {
   const image = product.images.edges[0].node;
   const price = product.priceRange.minVariantPrice.amount;
 
+  // return (
+  //   <section className="text-gray-400 bg-gray-900 body-font overflow-hidden">
+  //     <div className="container px-5 py-24 mx-auto">
+  //       <div className="lg:w-4/5 mx-auto flex flex-wrap">
+  //         <img
+  //           alt={image.altText}
+  //           className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+  //           src={image.url}
+  //         />
+  //         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+  //           <h2 className="text-sm title-font text-gray-500 tracking-widest">
+  //             Curl Cure
+  //           </h2>
+  //           <h1 className="text-white text-3xl title-font font-medium mb-1">
+  //             {title}
+  //           </h1>
+  //           <div className="flex mb-4">
+  //             <span className="flex items-center">
+  //               <svg
+  //                 fill="currentColor"
+  //                 stroke="currentColor"
+  //                 strokeLinecap="round"
+  //                 strokeLinejoin="round"
+  //                 strokeWidth="2"
+  //                 className="w-4 h-4 text-indigo-400"
+  //                 viewBox="0 0 24 24"
+  //               >
+  //                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  //               </svg>
+  //               <svg
+  //                 fill="currentColor"
+  //                 stroke="currentColor"
+  //                 strokeLinecap="round"
+  //                 strokeLinejoin="round"
+  //                 strokeWidth="2"
+  //                 className="w-4 h-4 text-indigo-400"
+  //                 viewBox="0 0 24 24"
+  //               >
+  //                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  //               </svg>
+  //               <svg
+  //                 fill="currentColor"
+  //                 stroke="currentColor"
+  //                 strokeLinecap="round"
+  //                 strokeLinejoin="round"
+  //                 strokeWidth="2"
+  //                 className="w-4 h-4 text-indigo-400"
+  //                 viewBox="0 0 24 24"
+  //               >
+  //                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  //               </svg>
+  //               <svg
+  //                 fill="currentColor"
+  //                 stroke="currentColor"
+  //                 strokeLinecap="round"
+  //                 strokeLinejoin="round"
+  //                 strokeWidth="2"
+  //                 className="w-4 h-4 text-indigo-400"
+  //                 viewBox="0 0 24 24"
+  //               >
+  //                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  //               </svg>
+  //               <svg
+  //                 fill="none"
+  //                 stroke="currentColor"
+  //                 strokeLinecap="round"
+  //                 strokeLinejoin="round"
+  //                 strokeWidth="2"
+  //                 className="w-4 h-4 text-indigo-400"
+  //                 viewBox="0 0 24 24"
+  //               >
+  //                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+  //               </svg>
+  //               <span className="ml-3">4 Reviews</span>
+  //             </span>
+  //             <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-800 text-gray-500 space-x-2">
+  //               <a>
+  //                 <svg
+  //                   fill="currentColor"
+  //                   strokeLinecap="round"
+  //                   strokeLinejoin="round"
+  //                   strokeWidth="2"
+  //                   className="w-5 h-5"
+  //                   viewBox="0 0 24 24"
+  //                 >
+  //                   <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+  //                 </svg>
+  //               </a>
+  //               <a>
+  //                 <svg
+  //                   fill="currentColor"
+  //                   strokeLinecap="round"
+  //                   strokeLinejoin="round"
+  //                   strokeWidth="2"
+  //                   className="w-5 h-5"
+  //                   viewBox="0 0 24 24"
+  //                 >
+  //                   <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+  //                 </svg>
+  //               </a>
+  //               <a>
+  //                 <svg
+  //                   fill="currentColor"
+  //                   strokeLinecap="round"
+  //                   strokeLinejoin="round"
+  //                   strokeWidth="2"
+  //                   className="w-5 h-5"
+  //                   viewBox="0 0 24 24"
+  //                 >
+  //                   <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+  //                 </svg>
+  //               </a>
+  //             </span>
+  //           </div>
+  //           <p className="leading-relaxed">{product.description}</p>
+  //           <div className="flex">
+  //             <span className="title-font font-medium text-2xl text-white">
+  //               {price}
+  //             </span>
+  //             <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+  //               CheckOut
+  //             </button>
+  //             <button className="rounded-full w-10 h-10 bg-gray-800 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+  //               <svg
+  //                 fill="currentColor"
+  //                 strokeLinecap="round"
+  //                 strokeLinejoin="round"
+  //                 strokeWidth="2"
+  //                 className="w-5 h-5"
+  //                 viewBox="0 0 24 24"
+  //               >
+  //                 <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+  //               </svg>
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </section>
+  // );
+
   return (
-    <section className="text-gray-400 bg-gray-900 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
-        <div className="lg:w-4/5 mx-auto flex flex-wrap">
-          <img
-            alt={image.altText}
-            className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-            src={image.url}
-          />
-          <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-            <h2 className="text-sm title-font text-gray-500 tracking-widest">
-              Curl Cure
-            </h2>
-            <h1 className="text-white text-3xl title-font font-medium mb-1">
-              {title}
-            </h1>
-            <div className="flex mb-4">
-              <span className="flex items-center">
-                <svg
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-indigo-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                </svg>
-                <svg
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-indigo-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                </svg>
-                <svg
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-indigo-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                </svg>
-                <svg
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-indigo-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                </svg>
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-4 h-4 text-indigo-400"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                </svg>
-                <span className="ml-3">4 Reviews</span>
-              </span>
-              <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-800 text-gray-500 space-x-2">
-                <a>
-                  <svg
-                    fill="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-5 h-5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                  </svg>
-                </a>
-                <a>
-                  <svg
-                    fill="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-5 h-5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-                  </svg>
-                </a>
-                <a>
-                  <svg
-                    fill="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-5 h-5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-                  </svg>
-                </a>
-              </span>
-            </div>
-            <p className="leading-relaxed">{product.description}</p>
-            <div className="flex">
-              <span className="title-font font-medium text-2xl text-white">
-                {price}
-              </span>
-              <button className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
-                CheckOut
-              </button>
-              <button className="rounded-full w-10 h-10 bg-gray-800 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                <svg
-                  fill="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  className="w-5 h-5"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+    <div className="h-full bg-slate-50 flex">
+      <div className="w-1/2 flex items-start flex-col p-10">
+        <img
+          className="w-full h-full object-contain p-5"
+          src={image.url}
+          alt="hehe"
+        />
       </div>
-    </section>
+      <div className="w-1/2 bg-white flex flex-col p-10">
+        <h3 className="text-4xl leading-none text-pink-500">{title}</h3>
+        <p className="my-2 text-lg font-medium">
+          Neutralises Odour | Long Lasting Freshness
+        </p>
+        <p className="flex items-center gap-4 my-2">
+          <div className="flex text-pink-500 text-lg">
+            <AiFillStar />
+            <AiFillStar />
+            <AiFillStar />
+            <AiFillStar />
+            <AiOutlineStar />
+          </div>
+          <span className="font-semibold text-slate-400">23 Reviews</span>
+        </p>
+        <p className="text-justify font-medium my-2">
+          his organic deodorant helps keep the underarms fresh by neutralising
+          body odour. Its natural clays help detoxify the pores, while its plant
+          oils promote more even-toned skin. This deodorant has a citrusy scent
+          with mild floral notes. Take only a little product and massage well to
+          avoid stains on clothing.
+        </p>
+        <div className="my-2 bg-slate-100 p-3 flex flex-col">
+          <p className="text-2xl text-pink-500 font-semibold my-1 mx-2 ">
+            ₹ {price}
+          </p>
+          <p className="text-lg mx-2">MRP inclusive of all taxes</p>
+        </div>
+
+        <div className="flex items-center border border-black/100 gap-2 p-3 my-3 justify-center text-2xl font-medium">
+          <AiOutlineMinus className="cursor-pointer " />
+          <span className="border-l border-black/100 border-r px-3 ">1</span>
+          <AiOutlinePlus className="cursor-pointer" />
+        </div>
+        <button className="bg-pink-500 w-full px-3 py-3 flex justify-center text-xl items-center text-white my-2">
+          Add To Cart
+          <BsHandbag className=" mx-3" />
+        </button>
+      </div>
+    </div>
   );
 };
 

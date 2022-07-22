@@ -50,7 +50,6 @@ const Iraninaturals = ({ products }) => {
   return (
     mounted && (
       <>
-        <Navbar />
         <div className={styles.productcontainer}>
           {/* <div className={styles.filterbox}>filter box here</div> */}
           <div className={styles.cards}>
