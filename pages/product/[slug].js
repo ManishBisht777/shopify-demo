@@ -179,7 +179,12 @@ const Post = ({ product }) => {
           console.log(image);
 
           return (
-            <img className="w-[600px] p-5" src={image.node.url} alt="hehe" />
+            <img
+              key={image.node.url}
+              className="w-[600px] p-5"
+              src={image.node.url}
+              alt="hehe"
+            />
           );
         })}
       </div>
