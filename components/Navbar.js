@@ -143,6 +143,7 @@ const Navbar = () => {
         estimatedCost: data.cart.cost.totalAmount.amount,
         lines: data.cart.lines.edges,
       });
+
       return;
     }
     localcartdata = await storefront(cartquery);
@@ -213,6 +214,8 @@ const Navbar = () => {
     setInterval(() => {
       getcart();
     }, 500);
+
+    getcart();
   }, []);
 
   const togglecart = () => {

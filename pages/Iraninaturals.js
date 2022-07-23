@@ -38,6 +38,8 @@ const Iraninaturals = ({ products }) => {
       cartid: cart.id,
       variantid: variantid,
     });
+
+    console.log(cart);
   };
 
   useEffect(() => {
