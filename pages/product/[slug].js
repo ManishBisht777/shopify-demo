@@ -139,34 +139,82 @@ const Post = ({ product }) => {
         </div>
       </div>
 
-      <div className="flex justify-center p-10 bg-slate-100 flex-col items-center">
-        <h4 className="text-2xl">How it works</h4>
-        <div className="flex">
-          <div className="flex">
-            <img src="https://picsum.photos/300/300" alt="" />
+      {/* how it works section */}
+      <div className="flex justify-center  p-10 w-full bg-slate-100 flex-col items-center">
+        <h4 className="text-2xl ">How do I use it?</h4>
+        <div className="flex w-full my-10 ">
+          <div className="flex w-1/2 justify-end">
+            <img src="https://picsum.photos/400/400" alt="" />
           </div>
+          <div className="flex flex-col w-1/2 items-center p-10 ">
+            <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
+              <h4 className="font-semibold">Step 1 </h4>
+              <p className="pb-4 text-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
+                soluta!
+              </p>
+            </div>
+            <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
+              <h4 className="font-semibold">Step 1 </h4>
+              <p className="pb-4 text-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
+                soluta!
+              </p>
+            </div>
+            <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
+              <h4 className="font-semibold">Step 1 </h4>
+              <p className="pb-4 text-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
+                soluta!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex w-full h-[100vh] ">
+        <div className="flex w-1/2 flex-col justify-center items-center bg-white p-5">
+          <h4 className="text-2xl">Who is it For?</h4>
           <div className="flex flex-col items-center p-10 ">
-            <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-              <h4 className="font-semibold">Step 1 </h4>
-              <p className="pb-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                soluta!
-              </p>
-            </div>
-            <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-              <h4 className="font-semibold">Step 1 </h4>
-              <p className="pb-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                soluta!
-              </p>
-            </div>
-            <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-              <h4 className="font-semibold">Step 1 </h4>
-              <p className="pb-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                soluta!
-              </p>
-            </div>
+            <ul className="my-5">
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Neutralises body odour
+              </li>
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Improves skin tone,
+                texture, and tonicity
+              </li>
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Prevents clogging of sweat
+                ducts
+              </li>
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Exhibits antibacterial and
+                anti-inflammatory properties
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex w-1/2 flex-col justify-center items-center bg-pink-100 p-5">
+          <h4 className="text-2xl">Who is it For?</h4>
+          <div className="flex flex-col items-center p-10 ">
+            <ul className="my-5">
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Neutralises body odour
+              </li>
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Improves skin tone,
+                texture, and tonicity
+              </li>
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Prevents clogging of sweat
+                ducts
+              </li>
+              <li className="mx-2 flex items-center gap-2 ">
+                <TiTick className="text-green-400" /> Exhibits antibacterial and
+                anti-inflammatory properties
+              </li>
+            </ul>
           </div>
         </div>
       </div>
