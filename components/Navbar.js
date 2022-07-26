@@ -230,13 +230,13 @@ const Navbar = () => {
       }
 
       ref.current.classList.add("translate-x-0");
-    } else if (!ref.current.classList.contains("translate-x-full")) {
+    } else if (ref.current.classList.contains("translate-x-0")) {
       ref.current.classList.remove("translate-x-0");
       if (window.innerWidth <= 500) {
         ref.current.classList.remove("relative");
         ref.current.classList.add("absolute");
       }
-      document.body.style.overflow = "overflow";
+      document.body.style.overflow = "auto";
       document.body.style.height = "fit-content";
 
       ref.current.classList.add("translate-x-full");
@@ -246,7 +246,7 @@ const Navbar = () => {
   const ref = useRef();
 
   return (
-    <div className="curlcurenavbar">
+    <div className="curlcurenavbar relative">
       <nav className={styles.nav}>
         <div className={styles.logo}>logo</div>
         <div className={styles.main_nav}>
