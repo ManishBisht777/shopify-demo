@@ -2,13 +2,13 @@ import { storefront } from "../../utils/index.js";
 import React, { useRef, useState } from "react";
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
+// // Import Swiper styles
+// import "swiper/css";
+// import "swiper/css/free-mode";
+// import "swiper/css/navigation";
+// import "swiper/css/thumbs";
 
 import {
   AiOutlinePlus,
@@ -20,6 +20,8 @@ import {
 
 import { BsHandbag } from "react-icons/bs";
 import { TiTick } from "react-icons/ti";
+
+import Carousel from "react-material-ui-carousel";
 
 const Post = ({ product }) => {
   console.log(product);
@@ -35,18 +37,19 @@ const Post = ({ product }) => {
     <div>
       <div className="h-full bg-slate-50 flex">
         <div className="w-1/2 flex items-center flex-col  p-10">
-          {images.edges.map((image) => {
-            console.log(image);
-
-            return (
-              <img
-                key={image.node.url}
-                className="w-[600px] p-5"
-                src={image.node.url}
-                alt="hehe"
-              />
-            );
-          })}
+          <Carousel className="w-[500px] h-[600px]">
+            {images.edges.map((image) => {
+              console.log(image);
+              return (
+                <img
+                  key={image.node.url}
+                  className="w-[600px] p-5"
+                  src={image.node.url}
+                  alt="hehe"
+                />
+              );
+            })}
+          </Carousel>
         </div>
         <div className="w-1/2 bg-white flex h-full flex-col p-10">
           <h1 className="text-4xl leading-10 text-pink-500 py-3">
