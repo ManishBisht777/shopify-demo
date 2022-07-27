@@ -14,10 +14,8 @@
     "@mui/material": "^5.9.0",
     "next": "12.2.2",
     "react": "18.2.0",
-    "react-carousel-minimal": "^1.4.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
-    "react-responsive-carousel": "^3.2.23",
     "shopify-buy": "^2.16.1",
     "swiper": "^8.3.1"
   },
