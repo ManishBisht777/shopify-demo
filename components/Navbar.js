@@ -283,7 +283,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <div className={styles.nav2}>
+      {/* <div className={styles.nav2}>
         <div className={styles.categories}>
           <div className={styles.icon}>
             <GiBottleVapors style={style} />
@@ -312,7 +312,7 @@ const Navbar = () => {
             Filter
           </div>
         </div>
-      </div>
+      </div> */}
       <div
         ref={ref}
         className="sidebar overflow-y-hidden h-[100vh] absolute top-0 right-0 bg-pink-50/100 p-5 transform transition-transform translate-x-full z-50"
