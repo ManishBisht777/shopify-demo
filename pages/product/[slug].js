@@ -24,17 +24,68 @@ import { TiTick } from "react-icons/ti";
 import Carousel from "react-material-ui-carousel";
 import Slider from "react-slick";
 
+// create cart query
+
 const Post = ({ product }) => {
   const [mounted, setMounted] = useState(false);
+
+  console.log(product);
 
   const id = product.id;
   const title = product.title;
   const handle = product.handle;
   const images = product.images;
   const price = product.priceRange.minVariantPrice.amount;
+  const description = product.description;
+
+  const [cartitem, setcartitem] = useState(1);
+
+  const [cart, setcart] = useState({ id: "", lines: [] });
+
+  async function getcart() {
+    let state = JSON.parse(window.localStorage.getItem("curlcure:cart"));
+    if (state) {
+      setcart({
+        id: state.id,
+        checkoutUrl: state.checkoutUrl,
+      });
+    } else {
+      state = await storefront(cartquery);
+
+      setcart({
+        id: state.data.cartCreate.cart.id,
+        checkoutUrl: state.data.cartCreate.cart.checkoutUrl,
+      });
+
+      window.localStorage.setItem(
+        "curlcure:cart",
+        JSON.stringify(state.data.cartCreate.cart)
+      );
+    }
+  }
+
+  console.log(cart);
+
+  const addtocart = async (variantid) => {
+    const data = await storefront(addtocartquery, {
+      cartid: cart.id,
+      variantid: variantid,
+      quantity: cartitem,
+    });
+  };
+
+  const increase = () => {
+    setcartitem(cartitem + 1);
+  };
+  const decrease = () => {
+    if (cartitem - 1 > 0) setcartitem(cartitem - 1);
+  };
 
   useEffect(() => {
     setMounted(true);
+    // setInterval(() => {
+    getcart();
+    // }, 500);
   }, []);
 
   var settings = {
@@ -94,7 +145,8 @@ const Post = ({ product }) => {
           </div>
           <div className="w-full md:w-1/2 bg-white flex h-full flex-col p-10">
             <h1 className="text-2xl md:text-4xl leading-7 md:leading-10 text-pink-500 py-1 md:py-3">
-              Blood Orange and Geranium Deodorant
+              {/* Blood Orange and Geranium Deodorant */}
+              {title}
             </h1>
             <p className="my-1 md:my-2 text-sm md:text-lg font-medium">
               Neutralises Odour | Long Lasting Freshness
@@ -110,11 +162,12 @@ const Post = ({ product }) => {
               <span className="font-semibold text-slate-400">23 Reviews</span>
             </p>
             <p className="text-justify my-2 text-sm md:text-lg">
-              This organic deodorant helps keep the underarms fresh by
+              {/* This organic deodorant helps keep the underarms fresh by
               neutralising body odour. Its natural clays help detoxify the
               pores, while its plant oils promote more even-toned skin. This
               deodorant has a citrusy scent with mild floral notes. Take only a
-              little product and massage well to avoid stains on clothing.
+              little product and massage well to avoid stains on clothing. */}
+              {description}
             </p>
             <ul className="my-5 text-sm md:text-lg">
               <li className="mx-2 flex items-center gap-2 ">
@@ -155,11 +208,21 @@ const Post = ({ product }) => {
                 <option value="audi">300 g</option>
               </select>
               <div className="flex items-center border w-1/2 border-black/100 gap-2 p-3 my-3 ml-3 justify-center text-sm md:text-2xl font-medium">
-                <AiOutlineMinus className="cursor-pointer " />
+                <AiOutlineMinus
+                  onClick={() => {
+                    decrease();
+                  }}
+                  className="cursor-pointer "
+                />
                 <span className="border-l border-black/100 border-r px-3 ">
-                  1
+                  {cartitem}
                 </span>
-                <AiOutlinePlus className="cursor-pointer" />
+                <AiOutlinePlus
+                  onClick={() => {
+                    increase();
+                  }}
+                  className="cursor-pointer"
+                />
               </div>
             </div>
 
@@ -168,7 +231,12 @@ const Post = ({ product }) => {
                 Buy Now
                 <BsHandbag className=" mx-3" />
               </button>
-              <button className="bg-pink-500  hover:bg-white duration-300 hover:border hover:border-pink-500 transition ease-in-out hover:text-black w-1/2 px-1 md:px-3 py-2 md:py-3 ml-2 flex justify-center text-sm md:text-xl items-center text-white my-2">
+              <button
+                className="bg-pink-500  hover:bg-white duration-300 hover:border hover:border-pink-500 transition ease-in-out hover:text-black w-1/2 px-1 md:px-3 py-2 md:py-3 ml-2 flex justify-center text-sm md:text-xl items-center text-white my-2"
+                onClick={() => {
+                  addtocart(product.variants.edges[0].node.id);
+                }}
+              >
                 Add To Cart
                 <AiOutlineShoppingCart className=" mx-3" />
               </button>
@@ -187,7 +255,7 @@ const Post = ({ product }) => {
         </div>
 
         {/* how it works section */}
-        <div className="flex justify-center p-5 md:p-10 w-full bg-slate-100 flex-col items-center">
+        <div className="flex justify-items-center p-5 md:p-10 w-full bg-slate-100 flex-col items-center">
           <h4 className="text-2xl ">How do I use it?</h4>
           <div className="flex flex-col md:flex-row w-full my-10 ">
             <div className="flex w-full md:w-1/2 justify-end">
@@ -436,7 +504,7 @@ const Post = ({ product }) => {
           <h3 className="text-2xl md:text-4xl text-center leading-7 md:leading-10 py-3 font-semibold my-5">
             YOU MAY ALSO LIKE
           </h3>
-          <div className="flex gap2">
+          <div className="flex gap2 flex-wrap">
             <div className={styles.card}>
               <div className={styles.image}>
                 <img
@@ -535,12 +603,57 @@ const productquery = gql`
           amount
         }
       }
+      variants(first: 250) {
+        edges {
+          node {
+            id
+          }
+        }
+      }
       description
       images(first: 3) {
         edges {
           node {
             url
             altText
+          }
+        }
+      }
+    }
+  }
+`;
+
+const cartquery = gql`
+  mutation {
+    cartCreate {
+      cart {
+        checkoutUrl
+        id
+      }
+    }
+  }
+`;
+
+const addtocartquery = gql`
+  mutation addtocart($cartid: ID!, $variantid: ID!, $quantity: Int!) {
+    cartLinesAdd(
+      cartId: $cartid
+      lines: [{ quantity: $quantity, merchandiseId: $variantid }]
+    ) {
+      cart {
+        lines(first: 200) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  product {
+                    title
+                  }
+                }
+              }
+            }
           }
         }
       }
