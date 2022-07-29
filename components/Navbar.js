@@ -137,13 +137,25 @@ const Navbar = () => {
         id: localcartdata.id,
       });
 
-      setcart({
-        id: localcartdata.id,
-        checkoutUrl: localcartdata.checkoutUrl,
-        estimatedCost: data.cart.cost.totalAmount.amount,
-        lines: data.cart.lines.edges,
-      });
+      if (!data.cart) {
+        localcartdata = await storefront(cartquery);
+        setcart({
+          id: localcartdata.data.cartCreate.cart.id,
+          checkoutUrl: localcartdata.data.cartCreate.cart.checkoutUrl,
+        });
 
+        window.localStorage.setItem(
+          "curlcure:cart",
+          JSON.stringify(localcartdata.data.cartCreate.cart)
+        );
+      } else {
+        setcart({
+          id: localcartdata.id,
+          checkoutUrl: localcartdata.checkoutUrl,
+          estimatedCost: data.cart.cost.totalAmount.amount,
+          lines: data.cart.lines.edges,
+        });
+      }
       return;
     }
     localcartdata = await storefront(cartquery);
