@@ -21,3 +21,24 @@ export async function storefront(query, variables = {}) {
     throw new Error("Products not fetched");
   }
 }
+
+export async function getreviews(productid) {
+  try {
+    const data = await fetch(
+      `https://api-cdn.yotpo.com/v1/widget/ikRh6OlpXX7iMQaKtGqzjik3dvpS99TQyqzpdXzq/products/${productid}/reviews.json`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
+      return response.json();
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Reviws not fetched");
+  }
+}

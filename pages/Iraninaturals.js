@@ -117,9 +117,11 @@ const Iraninaturals = ({ products }) => {
 
 const gql = String.raw;
 
+// collection(handle: "inari-naturals") {
+
 const productquery = gql`
   {
-    collection(handle: "inari-naturals") {
+    collection(handle: "best-seller") {
       products(first: 250) {
         edges {
           node {

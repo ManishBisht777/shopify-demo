@@ -1,4 +1,4 @@
-import { storefront } from "../../utils/index.js";
+import { storefront, getreviews } from "../../utils/index.js";
 import React, { useEffect, useState } from "react";
 
 import Accordion from "@mui/material/Accordion";
@@ -26,12 +26,13 @@ import Slider from "react-slick";
 
 // create cart query
 
-const Post = ({ product }) => {
+const Post = ({ product, reviews }) => {
   const [mounted, setMounted] = useState(false);
 
-  console.log(product);
+  console.log(reviews);
 
   const id = product.id;
+
   const title = product.title;
   const handle = product.handle;
   const images = product.images;
@@ -431,70 +432,29 @@ const Post = ({ product }) => {
           </h3>
           <div className="flex items-center flex-wrap justify-center">
             {/* <Slider {...settings}> */}
-            <div className="flex flex-col w-[300px] m-2 bg-white p-3 rounded gap-1">
-              <p className="font-semibold text-lg">Manish bisht</p>
-              <p className="text-sm">28-07-2022</p>
-              <Rating
-                name="half-rating-read"
-                defaultValue={2.5}
-                precision={0.5}
-                readOnly
-                className="text-pink-500 text-sm"
-              />
-              <p className="text-xs">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-                animi excepturi quia vel, reiciendis eaque explicabo voluptate
-                neque et. Sint?
-              </p>
-            </div>
-            <div className="flex flex-col w-[300px] m-2 bg-white p-3 rounded gap-1">
-              <p className="font-semibold text-lg">Manish bisht</p>
-              <p className="text-sm">28-07-2022</p>
-              <Rating
-                name="half-rating-read"
-                defaultValue={2.5}
-                precision={0.5}
-                readOnly
-                className="text-pink-500 text-sm"
-              />
-              <p className="text-xs">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-                animi excepturi quia vel, reiciendis eaque explicabo voluptate
-                neque et. Sint?
-              </p>
-            </div>
-            <div className="flex flex-col w-[300px] m-2 bg-white p-3 rounded gap-1">
-              <p className="font-semibold text-lg">Manish bisht</p>
-              <p className="text-sm">28-07-2022</p>
-              <Rating
-                name="half-rating-read"
-                defaultValue={2.5}
-                precision={0.5}
-                readOnly
-                className="text-pink-500 text-sm"
-              />
-              <p className="text-xs">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-                animi excepturi quia vel, reiciendis eaque explicabo voluptate
-                neque et. Sint?
-              </p>
-            </div>
-            <div className="flex flex-col w-[300px] m-2 bg-white p-3 rounded gap-1">
-              <p className="font-semibold text-lg">Manish bisht</p>
-              <p className="text-sm">28-07-2022</p>
-              <Rating
-                name="half-rating-read"
-                defaultValue={2.5}
-                precision={0.5}
-                readOnly
-                className="text-pink-500 text-sm"
-              />
-              <p className="text-xs">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione
-                animi excepturi quia vel, reiciendis eaque explicabo voluptate
-                neque et. Sint?
-              </p>
-            </div>
+            {reviews.response.reviews.map((review) => {
+              console.log(review);
+              return (
+                <div
+                  key={review.id}
+                  className="flex flex-col w-[300px] m-2 bg-white p-3 rounded gap-1"
+                >
+                  <p className="font-semibold text-lg">
+                    {review.user.display_name}
+                  </p>
+                  <p className="text-sm">{review.created_at}</p>
+                  <Rating
+                    name="half-rating-read"
+                    defaultValue={2.5}
+                    precision={0.5}
+                    readOnly
+                    className="text-pink-500 text-sm"
+                  />
+                  <p className="text-xs">{review.content}</p>
+                </div>
+              );
+            })}
+
             {/* </Slider> */}
           </div>
         </div>
@@ -666,9 +626,15 @@ export async function getServerSideProps(context) {
     handle: context.query.slug,
   });
 
+  const id = data.product.id;
+  const reviewid = id.substring(id.indexOf("t") + 2);
+
+  const reviews = await getreviews(reviewid);
+  console.log(reviews);
   return {
     props: {
       product: data.product,
+      reviews: reviews,
     },
   };
 }
