@@ -121,7 +121,7 @@ const gql = String.raw;
 
 const productquery = gql`
   {
-    collection(handle: "best-seller") {
+    collection(handle: "new-launches-combo") {
       products(first: 250) {
         edges {
           node {

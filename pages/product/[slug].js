@@ -29,8 +29,7 @@ import Slider from "react-slick";
 const Post = ({ product, reviews }) => {
   const [mounted, setMounted] = useState(false);
 
-  console.log(reviews);
-
+  console.log(product);
   const id = product.id;
 
   const title = product.title;
@@ -64,8 +63,6 @@ const Post = ({ product, reviews }) => {
       );
     }
   }
-
-  console.log(cart);
 
   const addtocart = async (variantid) => {
     const data = await storefront(addtocartquery, {
@@ -125,18 +122,44 @@ const Post = ({ product, reviews }) => {
     ],
   };
 
+  var St = description;
+  var pFrom = St.indexOf("Head_start ") + "Head_start ".length;
+  var pTo = St.indexOf("Head_End");
+  var headline = St.substr(pFrom, pTo - pFrom);
+
+  pFrom = St.indexOf("Description_start ") + "Description_start ".length;
+  var pTo = St.indexOf(" Description_end");
+  var desc = St.substr(pFrom, pTo - pFrom);
+
+  pFrom = St.indexOf("Desc2_start ") + "Desc2_start ".length;
+  var pTo = St.indexOf(" Desc2_end");
+  var desc2 = St.substr(pFrom, pTo - pFrom);
+
+  pFrom = St.indexOf("Desc3_start ") + "Desc3_start ".length;
+  var pTo = St.indexOf(" Desc3_end");
+  var desc3 = St.substr(pFrom, pTo - pFrom);
+
+  pFrom = St.indexOf("Desc1_start ") + "Desc1_start ".length;
+  var pTo = St.indexOf(" Desc1_end");
+  var desc1 = St.substr(pFrom, pTo - pFrom);
+
+  console.log(pTo, "end");
+  console.log(pFrom, "start");
+  console.log(headline);
+  console.log(desc);
+
   return (
     mounted && (
       <div>
         {/* product main section */}
         <div className="h-full bg-slate-50 flex flex-col md:flex-row">
-          <div className="w-full md:w-1/2 flex items-center p-3 md:p-10">
+          <div className="w-full md:w-1/2 flex  p-3 md:p-10">
             <Carousel className="w-[500px] ">
               {images.edges.map((image) => {
                 return (
                   <img
                     key={image.node.url}
-                    className="w-[400px] p-5 md:w-[600px]"
+                    className="w-[400px] p-5 md:w-[600px] h-[400px] md:h-[500px]"
                     src={image.node.url}
                     alt="hehe"
                   />
@@ -150,41 +173,32 @@ const Post = ({ product, reviews }) => {
               {title}
             </h1>
             <p className="my-1 md:my-2 text-sm md:text-lg font-medium">
-              Neutralises Odour | Long Lasting Freshness
+              {headline}
             </p>
             <p className="flex items-center gap-4 my-2">
               <div className="flex text-pink-500 text-lg">
-                <AiFillStar />
-                <AiFillStar />
-                <AiFillStar />
-                <AiFillStar />
-                <AiOutlineStar />
+                <Rating
+                  name="half-rating-read"
+                  defaultValue={reviews.response.bottomline.average_score}
+                  precision={0.5}
+                  className="text-pink-500"
+                  readOnly
+                />
               </div>
-              <span className="font-semibold text-slate-400">23 Reviews</span>
+              <span className="font-semibold text-slate-400">
+                {reviews.response.bottomline.total_review} Reviews
+              </span>
             </p>
-            <p className="text-justify my-2 text-sm md:text-lg">
-              {/* This organic deodorant helps keep the underarms fresh by
-              neutralising body odour. Its natural clays help detoxify the
-              pores, while its plant oils promote more even-toned skin. This
-              deodorant has a citrusy scent with mild floral notes. Take only a
-              little product and massage well to avoid stains on clothing. */}
-              {description}
-            </p>
+            <p className="text-justify my-2 text-sm md:text-lg">{desc}</p>
             <ul className="my-5 text-sm md:text-lg">
               <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> Neutralises body odour
+                <TiTick className="text-green-400" /> {desc1}
               </li>
               <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> Improves skin tone,
-                texture, and tonicity
+                <TiTick className="text-green-400" /> {desc2}
               </li>
               <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> Prevents clogging of sweat
-                ducts
-              </li>
-              <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> Exhibits antibacterial and
-                anti-inflammatory properties
+                <TiTick className="text-green-400" /> {desc3}
               </li>
             </ul>
             <div className="my-2 bg-slate-100 p-3 flex flex-col">
@@ -263,6 +277,13 @@ const Post = ({ product, reviews }) => {
               <img src="https://picsum.photos/400/400" alt="" />
             </div>
             <div className="flex flex-col w-full md:w-1/2 items-center p-4 md:p-10 ">
+              <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
+                <h4 className="font-semibold">Step 1 </h4>
+                <p className="pb-4 text-sm">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
+                  soluta!
+                </p>
+              </div>
               <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
                 <h4 className="font-semibold">Step 1 </h4>
                 <p className="pb-4 text-sm">
@@ -433,7 +454,6 @@ const Post = ({ product, reviews }) => {
           <div className="flex items-center flex-wrap justify-center">
             {/* <Slider {...settings}> */}
             {reviews.response.reviews.map((review) => {
-              console.log(review);
               return (
                 <div
                   key={review.id}
