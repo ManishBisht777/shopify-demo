@@ -456,7 +456,7 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
 
               return (
                 <div key={rproduct.id} className={styles.card}>
-                  <Link key={id} href={`/product/${handle}`}>
+                  <Link key={id} href={`/product/${rproduct.handle}`}>
                     <a className={styles.image}>
                       <img
                         src={rproduct.featured_image}
