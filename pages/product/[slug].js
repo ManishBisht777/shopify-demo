@@ -449,7 +449,7 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
                 "gid://shopify/ProductVariant/" + rproduct.variants[0].id;
 
               return (
-                <div key={id} className={styles.card}>
+                <div key={rproduct.id} className={styles.card}>
                   <Link key={id} href={`/product/${handle}`}>
                     <a className={styles.image}>
                       <img
