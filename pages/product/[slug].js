@@ -226,10 +226,10 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
             <p className="text-justify my-2 text-sm md:text-lg">{desc}</p>
 
             <ul className="my-5 text-sm md:text-lg">
-              {smalldesc.map((desc) => {
+              {smalldesc.map((desc, idx) => {
                 if (desc != "") {
                   return (
-                    <li className="mx-2 flex items-center gap-2 ">
+                    <li key={idx} className="mx-2 flex items-center gap-2 ">
                       <TiTick className="text-green-400" /> {desc}
                     </li>
                   );
@@ -258,9 +258,12 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
                   console.log(addtocartvariantid);
                 }}
               >
-                {variants.map((variant) => {
+                {variants.map((variant, idx) => {
                   return (
-                    <option value={variant.node.selectedOptions[0].value}>
+                    <option
+                      key={idx}
+                      value={variant.node.selectedOptions[0].value}
+                    >
                       {variant.node.selectedOptions[0].value}
                     </option>
                   );
@@ -327,7 +330,10 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
               {howtouses.map((howtouse, idx) => {
                 if (howtouse != "") {
                   return (
-                    <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
+                    <div
+                      key={idx}
+                      className="flex gap-1 flex-col border-b-2 border-black/50 my-3"
+                    >
                       <h4 className="font-semibold">Step {idx}</h4>
                       <p className="pb-4 text-sm">{howtouse}</p>
                     </div>
@@ -344,10 +350,10 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
             <h4 className="text-2xl py-3 md:py-0">Who is it For?</h4>
             <div className="flex flex-col items-center p-5 md:p-10 ">
               <ul className="my-0  md:my-5">
-                {whoisit.map((whois) => {
+                {whoisit.map((whois, idx) => {
                   if (whois != "") {
                     return (
-                      <li className="mx-2 flex items-center gap-2 ">
+                      <li key={idx} className="mx-2 flex items-center gap-2 ">
                         <TiTick className="text-green-400" /> {whois}
                       </li>
                     );
@@ -360,10 +366,10 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
             <h4 className="text-2xl py-3 md:py-0">Benefits</h4>
             <div className="flex flex-col items-center p-5 md:p-10 ">
               <ul className="my-0  md:my-5">
-                {benefits.map((benefit) => {
+                {benefits.map((benefit, idx) => {
                   if (benefit != "") {
                     return (
-                      <li className="mx-2 flex items-center gap-2 ">
+                      <li key={idx} className="mx-2 flex items-center gap-2 ">
                         <TiTick className="text-green-400" /> {benefit}
                       </li>
                     );
@@ -385,7 +391,7 @@ const Post = ({ product, reviews, rid, relatedproducts }) => {
 
             if (ques != "") {
               return (
-                <Accordion className="w-full md:w-1/2 my-1 ">
+                <Accordion key={idx} className="w-full md:w-1/2 my-1 ">
                   <AccordionSummary
                     expandIcon={<AiOutlinePlus className="text-xl" />}
                     aria-controls="panel1a-content"
