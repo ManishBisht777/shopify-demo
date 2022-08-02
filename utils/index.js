@@ -42,3 +42,24 @@ export async function getreviews(productid) {
     throw new Error("Reviws not fetched");
   }
 }
+
+export async function relatedproduct(productid) {
+  try {
+    const data = await fetch(
+      `https://inari-naturals.myshopify.com/recommendations/products.json?product_id=${productid}&limit=3`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => {
+      return response.json();
+    });
+
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Products not fetched");
+  }
+}

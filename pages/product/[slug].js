@@ -1,4 +1,5 @@
-import { storefront, getreviews } from "../../utils/index.js";
+import { storefront, getreviews, relatedproduct } from "../../utils/index.js";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import Accordion from "@mui/material/Accordion";
@@ -26,17 +27,22 @@ import Slider from "react-slick";
 
 // create cart query
 
-const Post = ({ product, reviews }) => {
+const Post = ({ product, reviews, rid, relatedproducts }) => {
   const [mounted, setMounted] = useState(false);
 
-  console.log(product);
   const id = product.id;
-
   const title = product.title;
   const handle = product.handle;
   const images = product.images;
   const price = product.priceRange.minVariantPrice.amount;
   const description = product.description;
+
+  const variants = product.variants.edges;
+  console.log(variants);
+  console.log(relatedproducts);
+
+  const [addtocartvariantid, setaddtocartvariantid] = useState("");
+  const [variantprice, setvariantprice] = useState("");
 
   const [cartitem, setcartitem] = useState(1);
 
@@ -131,22 +137,50 @@ const Post = ({ product, reviews }) => {
   var pTo = St.indexOf(" Description_end");
   var desc = St.substr(pFrom, pTo - pFrom);
 
-  pFrom = St.indexOf("Desc2_start ") + "Desc2_start ".length;
-  var pTo = St.indexOf(" Desc2_end");
-  var desc2 = St.substr(pFrom, pTo - pFrom);
+  var smalldesc = [];
+  for (var i = 1; i < 10; i++) {
+    pFrom = St.indexOf(`Desc_${i}`) + `Desc_${i}`.length;
+    var pTo = St.indexOf(` Desc_${i}end`);
+    smalldesc[i] = St.substr(pFrom, pTo - pFrom);
+  }
 
-  pFrom = St.indexOf("Desc3_start ") + "Desc3_start ".length;
-  var pTo = St.indexOf(" Desc3_end");
-  var desc3 = St.substr(pFrom, pTo - pFrom);
+  var howtouses = [];
+  for (var i = 1; i < 10; i++) {
+    pFrom = St.indexOf(`Howtouse_${i}`) + `Howtouse_${i}`.length;
+    var pTo = St.indexOf(` Howtouse_${i}end`);
+    howtouses[i] = St.substr(pFrom, pTo - pFrom);
+  }
 
-  pFrom = St.indexOf("Desc1_start ") + "Desc1_start ".length;
-  var pTo = St.indexOf(" Desc1_end");
-  var desc1 = St.substr(pFrom, pTo - pFrom);
+  var benefits = [];
 
-  console.log(pTo, "end");
-  console.log(pFrom, "start");
-  console.log(headline);
-  console.log(desc);
+  for (var i = 1; i < 10; i++) {
+    pFrom = St.indexOf(`Benefit_${i}`) + `Benefit_${i}`.length;
+    var pTo = St.indexOf(` Benefit_${i}end`);
+    benefits[i] = St.substr(pFrom, pTo - pFrom);
+  }
+
+  var whoisit = [];
+
+  for (var i = 1; i < 10; i++) {
+    pFrom = St.indexOf(`whoisit_${i}`) + `whoisit_${i}`.length;
+    var pTo = St.indexOf(` whoisit_${i}end`);
+    whoisit[i] = St.substr(pFrom, pTo - pFrom);
+  }
+
+  var faqques = [];
+
+  for (var i = 1; i < 10; i++) {
+    pFrom = St.indexOf(`faqques_${i}`) + `faqques_${i}`.length;
+    var pTo = St.indexOf(` faqques_${i}end`);
+    faqques[i] = St.substr(pFrom, pTo - pFrom);
+  }
+
+  var faqans = [];
+  for (var i = 1; i < 10; i++) {
+    pFrom = St.indexOf(`faqans_${i}`) + `faqans_${i}`.length;
+    var pTo = St.indexOf(` faqans_${i}end`);
+    faqans[i] = St.substr(pFrom, pTo - pFrom);
+  }
 
   return (
     mounted && (
@@ -190,16 +224,17 @@ const Post = ({ product, reviews }) => {
               </span>
             </p>
             <p className="text-justify my-2 text-sm md:text-lg">{desc}</p>
+
             <ul className="my-5 text-sm md:text-lg">
-              <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> {desc1}
-              </li>
-              <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> {desc2}
-              </li>
-              <li className="mx-2 flex items-center gap-2 ">
-                <TiTick className="text-green-400" /> {desc3}
-              </li>
+              {smalldesc.map((desc) => {
+                if (desc != "") {
+                  return (
+                    <li className="mx-2 flex items-center gap-2 ">
+                      <TiTick className="text-green-400" /> {desc}
+                    </li>
+                  );
+                }
+              })}
             </ul>
             <div className="my-2 bg-slate-100 p-3 flex flex-col">
               <p className="text-lg md:text-2xl text-pink-500 font-bold my-1 mx-2 ">
@@ -216,11 +251,20 @@ const Post = ({ product, reviews }) => {
                 id="size"
                 className="w-1/2 mr-3 my-3 px-5 cursor-pointer bg-pink-500 
                 text-sm md:text-xl text-white "
+                onChange={(e) => {
+                  e.preventDefault();
+                  setaddtocartvariantid(e.target.value);
+                  setvariantprice(va);
+                  console.log(addtocartvariantid);
+                }}
               >
-                <option value="volvo">70 g</option>
-                <option value="saab">100 g</option>
-                <option value="mercedes">200 g</option>
-                <option value="audi">300 g</option>
+                {variants.map((variant) => {
+                  return (
+                    <option value={variant.node.selectedOptions[0].value}>
+                      {variant.node.selectedOptions[0].value}
+                    </option>
+                  );
+                })}
               </select>
               <div className="flex items-center border w-1/2 border-black/100 gap-2 p-3 my-3 ml-3 justify-center text-sm md:text-2xl font-medium">
                 <AiOutlineMinus
@@ -252,7 +296,7 @@ const Post = ({ product, reviews }) => {
                   addtocart(product.variants.edges[0].node.id);
                 }}
               >
-                Add To Cart
+                Add To Cartx
                 <AiOutlineShoppingCart className=" mx-3" />
               </button>
             </div>
@@ -274,37 +318,22 @@ const Post = ({ product, reviews }) => {
           <h4 className="text-2xl ">How do I use it?</h4>
           <div className="flex flex-col md:flex-row w-full my-10 ">
             <div className="flex w-full md:w-1/2 justify-end">
-              <img src="https://picsum.photos/400/400" alt="" />
+              <img
+                src="https://i.picsum.photos/id/727/536/354.jpg?hmac=FPxn7oYjZgvXjjpn7dUunkQgtA6hwYZ4HcnchtahC2g"
+                alt="image"
+              />
             </div>
-            <div className="flex flex-col w-full md:w-1/2 items-center p-4 md:p-10 ">
-              <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-                <h4 className="font-semibold">Step 1 </h4>
-                <p className="pb-4 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                  soluta!
-                </p>
-              </div>
-              <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-                <h4 className="font-semibold">Step 1 </h4>
-                <p className="pb-4 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                  soluta!
-                </p>
-              </div>
-              <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-                <h4 className="font-semibold">Step 1 </h4>
-                <p className="pb-4 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                  soluta!
-                </p>
-              </div>
-              <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
-                <h4 className="font-semibold">Step 1 </h4>
-                <p className="pb-4 text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-                  soluta!
-                </p>
-              </div>
+            <div className="flex flex-col w-full md:w-1/2  p-4 md:p-10 ">
+              {howtouses.map((howtouse, idx) => {
+                if (howtouse != "") {
+                  return (
+                    <div className="flex gap-1 flex-col border-b-2 border-black/50 my-3">
+                      <h4 className="font-semibold">Step {idx}</h4>
+                      <p className="pb-4 text-sm">{howtouse}</p>
+                    </div>
+                  );
+                }
+              })}
             </div>
           </div>
         </div>
@@ -315,21 +344,15 @@ const Post = ({ product, reviews }) => {
             <h4 className="text-2xl py-3 md:py-0">Who is it For?</h4>
             <div className="flex flex-col items-center p-5 md:p-10 ">
               <ul className="my-0  md:my-5">
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Neutralises body odour
-                </li>
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Improves skin tone,
-                  texture, and tonicity
-                </li>
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Prevents clogging of
-                  sweat ducts
-                </li>
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Exhibits antibacterial
-                  and anti-inflammatory properties
-                </li>
+                {whoisit.map((whois) => {
+                  if (whois != "") {
+                    return (
+                      <li className="mx-2 flex items-center gap-2 ">
+                        <TiTick className="text-green-400" /> {whois}
+                      </li>
+                    );
+                  }
+                })}
               </ul>
             </div>
           </div>
@@ -337,21 +360,15 @@ const Post = ({ product, reviews }) => {
             <h4 className="text-2xl py-3 md:py-0">Benefits</h4>
             <div className="flex flex-col items-center p-5 md:p-10 ">
               <ul className="my-0  md:my-5">
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Neutralises body odour
-                </li>
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Improves skin tone,
-                  texture, and tonicity
-                </li>
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Prevents clogging of
-                  sweat ducts
-                </li>
-                <li className="mx-2 flex items-center gap-2 ">
-                  <TiTick className="text-green-400" /> Exhibits antibacterial
-                  and anti-inflammatory properties
-                </li>
+                {benefits.map((benefit) => {
+                  if (benefit != "") {
+                    return (
+                      <li className="mx-2 flex items-center gap-2 ">
+                        <TiTick className="text-green-400" /> {benefit}
+                      </li>
+                    );
+                  }
+                })}
               </ul>
             </div>
           </div>
@@ -363,86 +380,28 @@ const Post = ({ product, reviews }) => {
           <h3 className="text-2xl md:text-4xl leading-7 md:leading-10 py-3 font-semibold my-5">
             Ask Us Why ?
           </h3>
-          <Accordion className="w-full md:w-1/2 my-1 ">
-            <AccordionSummary
-              expandIcon={<AiOutlinePlus className="text-xl" />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className="text-lg font-normal">
-                What age group can use this deodorant?
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="text-sm">
-                You can use this deodorant if you are 13 or above.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion className="w-full md:w-1/2 my-1 ">
-            <AccordionSummary
-              expandIcon={<AiOutlinePlus className="text-xl" />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className="text-lg font-normal">
-                What age group can use this deodorant?
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="text-sm">
-                You can use this deodorant if you are 13 or above.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion className="w-full md:w-1/2 my-1 ">
-            <AccordionSummary
-              expandIcon={<AiOutlinePlus className="text-xl" />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className="text-lg font-normal">
-                What age group can use this deodorant?
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="text-sm">
-                You can use this deodorant if you are 13 or above.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion className="w-full md:w-1/2 my-1 ">
-            <AccordionSummary
-              expandIcon={<AiOutlinePlus className="text-xl" />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className="text-lg font-normal">
-                What age group can use this deodorant?
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="text-sm">
-                You can use this deodorant if you are 13 or above.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion className="w-full md:w-1/2 my-1 ">
-            <AccordionSummary
-              expandIcon={<AiOutlinePlus className="text-xl" />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className="text-lg font-normal">
-                What age group can use this deodorant?
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="text-sm">
-                You can use this deodorant if you are 13 or above.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          {faqques.map((ques, idx) => {
+            var ans = faqans[idx];
+
+            if (ques != "") {
+              return (
+                <Accordion className="w-full md:w-1/2 my-1 ">
+                  <AccordionSummary
+                    expandIcon={<AiOutlinePlus className="text-xl" />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className="text-lg font-normal">
+                      {ques}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography className="text-sm">{ans}</Typography>
+                  </AccordionDetails>
+                </Accordion>
+              );
+            }
+          })}
         </div>
 
         {/* reviews section */}
@@ -485,84 +444,46 @@ const Post = ({ product, reviews }) => {
             YOU MAY ALSO LIKE
           </h3>
           <div className="flex gap2 flex-wrap">
-            <div className={styles.card}>
-              <div className={styles.image}>
-                <img
-                  src="https://i.picsum.photos/id/846/536/354.jpg?hmac=vWJADyGTiavL-k1p7jrd223C6dzWbYTL_RNl-khWIWw"
-                  alt="hehe"
-                  className={styles.product_image}
-                />
-              </div>
-              <div className={styles.product_info}>
-                <div className={styles.name}>product</div>
-                <div className={styles.rating}>
-                  <AiFillStar /> <span>4.5</span>
-                </div>
-                <div className={styles.ratings}>
-                  <span className={styles.reviews}>23 reviews</span>
-                </div>
-                <div className={styles.addtocart}>
-                  <div className={styles.price}>
-                    ₹100 <span>₹130</span>
-                  </div>
-                  <div className={styles.cart_button}>
-                    add to cart <AiOutlineShoppingCart />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <div className={styles.image}>
-                <img
-                  src="https://i.picsum.photos/id/846/536/354.jpg?hmac=vWJADyGTiavL-k1p7jrd223C6dzWbYTL_RNl-khWIWw"
-                  alt="hehe"
-                  className={styles.product_image}
-                />
-              </div>
-              <div className={styles.product_info}>
-                <div className={styles.name}>product</div>
-                <div className={styles.rating}>
-                  <AiFillStar /> <span>4.5</span>
-                </div>
-                <div className={styles.ratings}>
-                  <span className={styles.reviews}>23 reviews</span>
-                </div>
-                <div className={styles.addtocart}>
-                  <div className={styles.price}>
-                    ₹100 <span>₹130</span>
-                  </div>
-                  <div className={styles.cart_button}>
-                    add to cart <AiOutlineShoppingCart />
+            {relatedproducts.products.map((rproduct) => {
+              const variantid =
+                "gid://shopify/ProductVariant/" + rproduct.variants[0].id;
+
+              return (
+                <div key={id} className={styles.card}>
+                  <Link key={id} href={`/product/${handle}`}>
+                    <a className={styles.image}>
+                      <img
+                        src={rproduct.featured_image}
+                        alt="alt_image"
+                        className={styles.product_image}
+                      />
+                    </a>
+                  </Link>
+                  <div className={styles.product_info}>
+                    <div className={styles.name}>{rproduct.title}</div>
+                    <div className={styles.rating}>
+                      <AiFillStar /> <span>4.5</span>
+                    </div>
+                    <div className={styles.ratings}>
+                      <span className={styles.reviews}>23 reviews</span>
+                    </div>
+                    <div className={styles.addtocart}>
+                      <div className={styles.price}>
+                        ₹{rproduct.price} <span>₹{rproduct.price_max}</span>
+                      </div>
+                      <div
+                        className={styles.cart_button}
+                        onClick={() => {
+                          addtocart(variantid);
+                        }}
+                      >
+                        add to cart <AiOutlineShoppingCart />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className={styles.card}>
-              <div className={styles.image}>
-                <img
-                  src="https://i.picsum.photos/id/846/536/354.jpg?hmac=vWJADyGTiavL-k1p7jrd223C6dzWbYTL_RNl-khWIWw"
-                  alt="hehe"
-                  className={styles.product_image}
-                />
-              </div>
-              <div className={styles.product_info}>
-                <div className={styles.name}>product</div>
-                <div className={styles.rating}>
-                  <AiFillStar /> <span>4.5</span>
-                </div>
-                <div className={styles.ratings}>
-                  <span className={styles.reviews}>23 reviews</span>
-                </div>
-                <div className={styles.addtocart}>
-                  <div className={styles.price}>
-                    ₹100 <span>₹130</span>
-                  </div>
-                  <div className={styles.cart_button}>
-                    add to cart <AiOutlineShoppingCart />
-                  </div>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -587,6 +508,13 @@ const productquery = gql`
         edges {
           node {
             id
+            priceV2 {
+              amount
+            }
+            selectedOptions {
+              name
+              value
+            }
           }
         }
       }
@@ -649,12 +577,15 @@ export async function getServerSideProps(context) {
   const id = data.product.id;
   const reviewid = id.substring(id.indexOf("t") + 2);
 
+  const relatedproducts = await relatedproduct(reviewid);
+
   const reviews = await getreviews(reviewid);
-  console.log(reviews);
   return {
     props: {
       product: data.product,
       reviews: reviews,
+      rid: reviewid,
+      relatedproducts: relatedproducts,
     },
   };
 }
